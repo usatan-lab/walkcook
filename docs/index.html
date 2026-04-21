@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WalkCook — Walk to Cook</title>
+  <meta name="description" content="歩くほど食材が集まり、料理が完成する。Apple Watch + iPhone のヘルスゲーム。" />
+  <style>
+    :root {
+      --orange: #E8621A;
+      --yellow: #F5C342;
+      --white: #FFFFFF;
+      --light: #FFF8F0;
+      --gray: #6B6B6B;
+      --text: #1A1A1A;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #f0e8dc;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 60px;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+    .nav-logo span.w { color: var(--orange); }
+    .nav-logo span.c { color: var(--yellow); }
+    .lang-btn {
+      background: none;
+      border: 1.5px solid var(--orange);
+      color: var(--orange);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .lang-btn:hover { background: var(--orange); color: #fff; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--light);
+      text-align: center;
+      padding: 90px 5% 70px;
+    }
+    .hero-icon {
+      width: 120px;
+      height: 120px;
+      border-radius: 28px;
+      box-shadow: 0 8px 32px rgba(232,98,26,0.18);
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 6vw, 3.4rem);
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .hero h1 .w { color: var(--orange); }
+    .hero h1 .c { color: var(--yellow); }
+    .hero-tagline {
+      margin-top: 16px;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--gray);
+    }
+    .hero-sub {
+      margin-top: 8px;
+      font-size: 0.95rem;
+      color: var(--gray);
+      opacity: 0.8;
+    }
+    .store-btn {
+      display: inline-block;
+      margin-top: 36px;
+      background: var(--orange);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 14px 36px;
+      border-radius: 50px;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 4px 16px rgba(232,98,26,0.3);
+    }
+    .store-btn:hover { background: #d0551a; transform: translateY(-2px); }
+    .store-note {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: var(--gray);
+      opacity: 0.7;
+    }
+
+    /* ── CONCEPT ── */
+    .concept {
+      padding: 72px 5%;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .concept p {
+      font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+      color: var(--gray);
+    }
+    .concept strong { color: var(--orange); }
+
+    /* ── FEATURES ── */
+    .features {
+      background: var(--light);
+      padding: 72px 5%;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 48px;
+      color: var(--text);
+    }
+    .section-title span { color: var(--orange); }
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px 28px;
+      flex: 1 1 260px;
+      max-width: 300px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      text-align: center;
+    }
+    .card-icon {
+      font-size: 2.4rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--orange);
+    }
+    .card p {
+      font-size: 0.9rem;
+      color: var(--gray);
+      line-height: 1.7;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how {
+      padding: 72px 5%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 12px;
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 28px 0;
+      border-bottom: 1px solid #f0e8dc;
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-body h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .step-body p {
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    /* ── PLATFORM ── */
+    .platform {
+      background: var(--light);
+      padding: 72px 5%;
+      text-align: center;
+    }
+    .platform-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .platform-item {
+      flex: 1 1 220px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .platform-item .icon { font-size: 2rem; margin-bottom: 12px; display: block; }
+    .platform-item h4 { font-weight: 700; margin-bottom: 8px; color: var(--orange); }
+    .platform-item ul {
+      list-style: none;
+      font-size: 0.88rem;
+      color: var(--gray);
+      line-height: 1.8;
+      text-align: left;
+    }
+    .platform-item ul li::before { content: "• "; color: var(--yellow); font-weight: 700; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 40px 5%;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--gray);
+      border-top: 1px solid #f0e8dc;
+    }
+    footer a { color: var(--orange); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .hero { padding: 60px 5% 50px; }
+      .hero-icon { width: 90px; height: 90px; border-radius: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <span class="w">Walk</span><span class="c">Cook</span>
+  </div>
+  <button class="lang-btn" id="langBtn" onclick="toggleLang()">English</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <img
+    class="hero-icon"
+    src="icon.jpg"
+    alt="WalkCook icon"
+    onerror="this.style.display='none'"
+  />
+  <h1><span class="w">Walk</span><span class="c">Cook</span></h1>
+  <p class="hero-tagline" id="heroTagline">歩くほど、食材が集まる。料理が完成する。</p>
+  <p class="hero-sub" id="heroSub">Apple Watch × iPhone のヘルスゲーム</p>
+  <a href="#" class="store-btn" id="storeBtn">App Store で入手</a>
+  <p class="store-note" id="storeNote">Apple Watch + iPhone 対応 · 買い切り</p>
+</section>
+
+<!-- CONCEPT -->
+<section class="concept">
+  <p id="conceptText">
+    毎日の<strong>歩数</strong>が食材に変わり、<br />
+    集めた食材でレシピが解放される。<br />
+    歩くモチベーションがゲームになる。
+  </p>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <h2 class="section-title" id="featureTitle"><span>Features</span></h2>
+  <div class="cards">
+    <div class="card">
+      <span class="card-icon">🥕</span>
+      <h3 id="f1h">歩数→食材ドロップ</h3>
+      <p id="f1p">歩けば歩くほど食材がドロップ。レア食材を求めてもっと歩こう。</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🍳</span>
+      <h3 id="f2h">レシピコレクション</h3>
+      <p id="f2p">ハンバーグ、パスタ、スープ…家庭料理が次々と完成。コレクションを埋めよう。</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎯</span>
+      <h3 id="f3h">目標設定</h3>
+      <p id="f3p">歩数・消費カロリー・時間から目標タイプを選択。達成するとドロップ率がアップ。</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <h2 class="section-title" id="howTitle">How it <span>Works</span></h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4 id="s1h">Apple Watch を装着して歩く</h4>
+        <p id="s1p">バックグラウンドで歩数を自動カウント。コンプリケーションで進捗を確認。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4 id="s2h">食材がドロップされる</h4>
+        <p id="s2p">一定歩数ごとに食材をゲット。Watch に通知が届いたら新しい食材の合図。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4 id="s3h">料理が完成！コレクションに追加</h4>
+        <p id="s3p">レシピの食材が揃ったら料理が完成。iPhone でコレクションを眺めよう。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORM -->
+<section class="platform">
+  <h2 class="section-title" id="platTitle">Platform</h2>
+  <div class="platform-grid">
+    <div class="platform-item">
+      <span class="icon">⌚</span>
+      <h4>Apple Watch</h4>
+      <ul id="watchList">
+        <li>歩数カウント・食材ドロップ通知</li>
+        <li>コンプリケーション対応</li>
+        <li>簡易ステータス表示</li>
+      </ul>
+    </div>
+    <div class="platform-item">
+      <span class="icon">📱</span>
+      <h4>iPhone</h4>
+      <ul id="iphoneList">
+        <li>レシピブック・コレクション閲覧</li>
+        <li>食材バッグ管理</li>
+        <li>目標設定・達成報酬</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p id="footerText">© 2026 WalkCook · <a href="privacy.html" id="privacyLink">プライバシーポリシー</a> · <a href="mailto:usatanlab@gmail.com">お問い合わせ</a></p>
+</footer>
+
+<script>
+  const ja = {
+    lang: "ja",
+    btnLabel: "English",
+    heroTagline: "歩くほど、食材が集まる。料理が完成する。",
+    heroSub: "Apple Watch × iPhone のヘルスゲーム",
+    storeBtn: "App Store で入手",
+    storeNote: "Apple Watch + iPhone 対応 · 買い切り",
+    conceptText: "毎日の<strong>歩数</strong>が食材に変わり、<br />集めた食材でレシピが解放される。<br />歩くモチベーションがゲームになる。",
+    featureTitle: "<span>Features</span>",
+    f1h: "歩数→食材ドロップ", f1p: "歩けば歩くほど食材がドロップ。レア食材を求めてもっと歩こう。",
+    f2h: "レシピコレクション", f2p: "ハンバーグ、パスタ、スープ…家庭料理が次々と完成。コレクションを埋めよう。",
+    f3h: "目標設定", f3p: "歩数・消費カロリー・時間から目標タイプを選択。達成するとドロップ率がアップ。",
+    howTitle: "How it <span>Works</span>",
+    s1h: "Apple Watch を装着して歩く", s1p: "バックグラウンドで歩数を自動カウント。コンプリケーションで進捗を確認。",
+    s2h: "食材がドロップされる", s2p: "一定歩数ごとに食材をゲット。Watch に通知が届いたら新しい食材の合図。",
+    s3h: "料理が完成！コレクションに追加", s3p: "レシピの食材が揃ったら料理が完成。iPhone でコレクションを眺めよう。",
+    platTitle: "Platform",
+    watchList: ["歩数カウント・食材ドロップ通知", "コンプリケーション対応", "簡易ステータス表示"],
+    iphoneList: ["レシピブック・コレクション閲覧", "食材バッグ管理", "目標設定・達成報酬"],
+    footerText: '© 2026 WalkCook · <a href="privacy.html" id="privacyLink">プライバシーポリシー</a> · <a href="mailto:usatanlab@gmail.com">お問い合わせ</a>',
+  };
+
+  const en = {
+    lang: "en",
+    btnLabel: "日本語",
+    heroTagline: "Walk more. Collect ingredients. Cook something great.",
+    heroSub: "A health game for Apple Watch & iPhone",
+    storeBtn: "Download on the App Store",
+    storeNote: "Apple Watch + iPhone · One-time purchase",
+    conceptText: "Every step you take turns into <strong>ingredients</strong>.<br />Collect them, unlock recipes, and build your cookbook.<br />Make your daily walk deliciously rewarding.",
+    featureTitle: "<span>Features</span>",
+    f1h: "Steps → Ingredient Drops", f1p: "The more you walk, the more ingredients you collect. Chase rare drops for the best recipes.",
+    f2h: "Recipe Collection", f2p: "Hamburgers, pasta, soups… unlock everyday home recipes and fill your cookbook.",
+    f3h: "Goal Setting", f3p: "Choose a goal type — steps, calories burned, or time. Hit your target and boost your drop rate.",
+    howTitle: "How it <span>Works</span>",
+    s1h: "Put on your Apple Watch and walk", s1p: "Steps are counted automatically in the background. Check your progress on the complication.",
+    s2h: "Ingredients drop as you walk", s2p: "Earn ingredients at step milestones. A Watch notification means a new ingredient awaits.",
+    s3h: "Finish a dish & add it to your collection", s3p: "Gather all recipe ingredients and your dish is complete. Browse your collection on iPhone.",
+    platTitle: "Platform",
+    watchList: ["Step counting & ingredient notifications", "Complication support", "Quick status at a glance"],
+    iphoneList: ["Recipe book & collection view", "Ingredient bag management", "Goal setting & drop bonuses"],
+    footerText: '© 2026 WalkCook · <a href="privacy.html">Privacy Policy</a> · <a href="mailto:usatanlab@gmail.com">Contact</a>',
+  };
+
+  let current = ja;
+
+  function set(id, html) {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = html;
+  }
+
+  function setList(id, items) {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = items.map(i => `<li>${i}</li>`).join("");
+  }
+
+  function applyLang(l) {
+    document.documentElement.lang = l.lang;
+    set("langBtn", l.btnLabel);
+    set("heroTagline", l.heroTagline);
+    set("heroSub", l.heroSub);
+    set("storeBtn", l.storeBtn);
+    set("storeNote", l.storeNote);
+    set("conceptText", l.conceptText);
+    set("featureTitle", l.featureTitle);
+    set("f1h", l.f1h); set("f1p", l.f1p);
+    set("f2h", l.f2h); set("f2p", l.f2p);
+    set("f3h", l.f3h); set("f3p", l.f3p);
+    set("howTitle", l.howTitle);
+    set("s1h", l.s1h); set("s1p", l.s1p);
+    set("s2h", l.s2h); set("s2p", l.s2p);
+    set("s3h", l.s3h); set("s3p", l.s3p);
+    set("platTitle", l.platTitle);
+    setList("watchList", l.watchList);
+    setList("iphoneList", l.iphoneList);
+    set("footerText", l.footerText);
+  }
+
+  function toggleLang() {
+    current = current.lang === "ja" ? en : ja;
+    applyLang(current);
+  }
+</script>
+
+</body>
+</html>
