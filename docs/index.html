@@ -244,6 +244,33 @@
     }
     .platform-item ul li::before { content: "• "; color: var(--yellow); font-weight: 700; }
 
+    /* ── CONTACT ── */
+    .contact {
+      padding: 72px 5%;
+      text-align: center;
+      background: var(--light);
+    }
+    .contact .section-title { margin-bottom: 16px; }
+    .contact-desc {
+      font-size: 0.95rem;
+      color: var(--gray);
+      margin-bottom: 32px;
+    }
+    .notion-embed-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+      background: #fff;
+    }
+    .notion-embed-wrap iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      display: block;
+    }
+
     /* ── FOOTER ── */
     footer {
       padding: 40px 5%;
@@ -370,9 +397,22 @@
   </div>
 </section>
 
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <h2 class="section-title" id="contactTitle">お<span>問い合わせ</span></h2>
+  <p class="contact-desc" id="contactDesc">ご意見・ご要望はフォームよりお気軽にどうぞ。</p>
+  <div class="notion-embed-wrap">
+    <iframe
+      src="https://boulder-foam-978.notion.site/349d27e5d17b806b8782d49eeb3a54aa"
+      title="お問い合わせフォーム"
+      loading="lazy"
+    ></iframe>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
-  <p id="footerText">© 2026 WalkCook · <a href="privacy.html" id="privacyLink">プライバシーポリシー</a> · <a href="mailto:usatanlab@gmail.com">お問い合わせ</a></p>
+  <p id="footerText">© 2026 WalkCook · <a href="privacy.html" id="privacyLink">プライバシーポリシー</a> · <a href="#contact">お問い合わせ</a></p>
 </footer>
 
 <script>
@@ -395,7 +435,9 @@
     platTitle: "Platform",
     watchList: ["歩数カウント・食材ドロップ通知", "コンプリケーション対応", "簡易ステータス表示"],
     iphoneList: ["レシピブック・コレクション閲覧", "食材バッグ管理", "目標設定・達成報酬"],
-    footerText: '© 2026 WalkCook · <a href="privacy.html" id="privacyLink">プライバシーポリシー</a> · <a href="mailto:usatanlab@gmail.com">お問い合わせ</a>',
+    contactTitle: "お<span>問い合わせ</span>",
+    contactDesc: "ご意見・ご要望はフォームよりお気軽にどうぞ。",
+    footerText: '© 2026 WalkCook · <a href="privacy.html" id="privacyLink">プライバシーポリシー</a> · <a href="#contact">お問い合わせ</a>',
   };
 
   const en = {
@@ -417,7 +459,9 @@
     platTitle: "Platform",
     watchList: ["Step counting & ingredient notifications", "Complication support", "Quick status at a glance"],
     iphoneList: ["Recipe book & collection view", "Ingredient bag management", "Goal setting & drop bonuses"],
-    footerText: '© 2026 WalkCook · <a href="privacy.html">Privacy Policy</a> · <a href="mailto:usatanlab@gmail.com">Contact</a>',
+    contactTitle: "<span>Contact</span> Us",
+    contactDesc: "Have a question or feedback? We'd love to hear from you.",
+    footerText: '© 2026 WalkCook · <a href="privacy.html">Privacy Policy</a> · <a href="#contact">Contact</a>',
   };
 
   let current = ja;
@@ -451,6 +495,8 @@
     set("platTitle", l.platTitle);
     setList("watchList", l.watchList);
     setList("iphoneList", l.iphoneList);
+    set("contactTitle", l.contactTitle);
+    set("contactDesc", l.contactDesc);
     set("footerText", l.footerText);
   }
 
